@@ -1,5 +1,6 @@
 *** Settings ***
 Resource  resource.robot
+Resource  login_resource.robot
 Suite Setup  Open And Configure Browser
 Suite Teardown  Close Browser
 Test Setup  Create User And Go To Login Page
@@ -22,28 +23,3 @@ Login With Nonexistent Username
     Set Password  kalle456
     Submit Credentials
     Login Should Fail With Message  Username and password are required
-
-*** Keywords ***
-Login Should Succeed
-    Main Page Should Be Open
-
-Login Should Fail With Message
-    [Arguments]  ${message}
-    Login Page Should Be Open
-    Page Should Contain  ${message}
-
-Submit Credentials
-    Click Button  Login
-
-Set Username
-    [Arguments]  ${username}
-    Input Text  username  ${username}
-
-Set Password
-    [Arguments]  ${password}
-    Input Password  password  ${password}
-
-Create User And Go To Login Page
-    Create User  kalle  kalle123
-    Go To Login Page
-    Login Page Should Be Open

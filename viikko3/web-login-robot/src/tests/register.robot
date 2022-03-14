@@ -1,7 +1,8 @@
 *** Settings ***
 Resource  resource.robot
+Resource  login_resource.robot
 Suite Setup  Open And Configure Browser
-#Suite Teardown  Close Browser
+Suite Teardown  Close Browser
 Test Setup  Create User And Go To Registration Page
 
 *** Test Cases ***
@@ -32,6 +33,30 @@ Register With Nonmatching Password And Password Confirmation
     Set Password Confirmation  jalle1
     Submit Credentials
     Registration Should Fail With Message  Password and password confirmation do not match
+
+Login After Successful Registration
+    Set Username  jalle
+    Set Password  jalle123
+    Set Password Confirmation  jalle123
+    Submit Credentials
+    Registration Should Succeed
+    Go To Login Page
+    login_resource.Set Username  jalle
+    login_resource.Set Password  jalle123
+    login_resource.Submit Credentials
+    login_resource.Login Should Succeed
+
+Login After Failed Registration
+    Set Username  ja
+    Set Password  jalle123
+    Set Password Confirmation  jalle123
+    Submit Credentials
+    Registration Should Fail With Message  Username must be at least 3 characters long
+    Go To Login Page
+    login_resource.Set Username  ja
+    login_resource.Set Password  jalle123
+    login_resource.Submit Credentials
+    login_resource.Login Should Fail With Message  Invalid username or password
 
 *** Keywords ***
 Registration Should Succeed
