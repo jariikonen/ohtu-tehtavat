@@ -93,3 +93,53 @@ class TestKauppa(unittest.TestCase):
         # varmistetaan, että metodia tilisiirto on kutsuttu oikeilla argumenteilla
         self.pankki_mock.tilisiirto.assert_called_with(
             "pekka", 42, "12345", self.kauppa._kaupan_tili, 5)
+
+    def test_metodi_aloita_asionti_nollaa_ostoskorin_tiedot(self):
+        # tehdään ostoksia
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+
+        # nollataan ostoskori
+        self.kauppa.aloita_asiointi()
+        
+        # varmistetaan, että ostoskori on todella nollattu
+        self.assertEqual(self.kauppa._ostoskori.hinta(), 0)
+
+    def test_jokainen_maksutapahtuma_pyytaa_uuden_viitenumeron(self):
+        # tehdään ostoksia
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("pekka", "12345")
+        
+        # tarkistetaan, että viitegeneraattorin metodia uusi() on kutsuttu kerran
+        self.assertEqual(self.viitegeneraattori_mock.uusi.call_count, 1)
+
+        # tehdään ostoksia
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("pekka", "12345")
+        
+        # tarkistetaan, että viitegeneraattorin metodia uusi() on kutsuttu kaksi kertaa
+        self.assertEqual(self.viitegeneraattori_mock.uusi.call_count, 2)
+
+        # tehdään ostoksia
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+        self.kauppa.tilimaksu("pekka", "12345")
+        
+        # tarkistetaan, että viitegeneraattorin metodia uusi() on kutsuttu kolme kertaa
+        self.assertEqual(self.viitegeneraattori_mock.uusi.call_count, 3)
+
+    def test_metodi_poista_korista_poistaa_tuotteen_ja_kutsuu_palauta_varastoon_metodia(self):
+        # tehdään ostoksia
+        self.kauppa.aloita_asiointi()
+        self.kauppa.lisaa_koriin(1)
+
+        # poistetaan tuote korista
+        self.kauppa.poista_korista(1)
+
+        # tarkistetaan, että ostoskorin summa vastaa poistoa
+        self.assertEqual(self.kauppa._ostoskori.hinta(), 0)
+
+        # tarkistetaan, että varaston palauta_varastoon metodia on kutsuttu
+        self.varasto_mock.palauta_varastoon.assert_called()
