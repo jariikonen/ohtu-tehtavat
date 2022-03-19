@@ -20,19 +20,19 @@ class Ostoskori:
 
     def lisaa_tuote(self, lisattava: Tuote):
         # lisää tuotteen
-        on_korissa = False
         for ostos in self._ostokset_list:
             if ostos.tuotteen_nimi() == lisattava.nimi():
-                on_korissa = True
                 ostos.muuta_lukumaaraa(1)
                 break
-
-        if not on_korissa:
+        else:
             self._ostokset_list.append(Ostos(lisattava))
 
     def poista_tuote(self, poistettava: Tuote):
         # poistaa tuotteen
-        pass
+        for ostos in self._ostokset_list:
+            if ostos.tuotteen_nimi() == poistettava.nimi():
+                ostos.muuta_lukumaaraa(-1)
+                break
 
     def tyhjenna(self):
         pass
