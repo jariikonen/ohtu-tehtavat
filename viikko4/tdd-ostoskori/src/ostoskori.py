@@ -4,23 +4,23 @@ from ostos import Ostos
 class Ostoskori:
     def __init__(self):
         # ostoskori tallettaa Ostos-oliota, yhden per korissa oleva Tuote
-        self.ostokset = []
+        self._ostokset_list = []
 
     def tavaroita_korissa(self):
         # kertoo korissa olevien tavaroiden lukumäärän
         # eli jos koriin lisätty 2 kpl tuotetta "maito", tulee metodin palauttaa 2 
         # samoin jos korissa on 1 kpl tuotetta "maito" ja 1 kpl tuotetta "juusto", tulee metodin palauttaa 2 
-        lukumaarat = map(lambda ostos: ostos.lukumaara(), self.ostokset)
+        lukumaarat = map(lambda ostos: ostos.lukumaara(), self._ostokset_list)
         return sum(lukumaarat)
 
     def hinta(self):
         # kertoo korissa olevien ostosten yhteenlasketun hinnan
-        hinnat = map(lambda ostos: ostos.hinta(), self.ostokset)
+        hinnat = map(lambda ostos: ostos.hinta(), self._ostokset_list)
         return sum(hinnat)
 
     def lisaa_tuote(self, lisattava: Tuote):
         # lisää tuotteen
-        self.ostokset.append(Ostos(lisattava))
+        self._ostokset_list.append(Ostos(lisattava))
 
     def poista_tuote(self, poistettava: Tuote):
         # poistaa tuotteen
@@ -31,6 +31,6 @@ class Ostoskori:
         # tyhjentää ostoskorin
 
     def ostokset(self):
-        pass
+        return self._ostokset_list
         # palauttaa listan jossa on korissa olevat ostos-oliot
         # kukin ostos-olio siis kertoo mistä tuotteesta on kyse JA kuinka monta kappaletta kyseistä tuotetta korissa on
