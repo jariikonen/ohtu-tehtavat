@@ -1,5 +1,5 @@
-from tuomari import Tuomari
-from tekoaly import Tekoaly
+from toimintalogiikka.tuomari import Tuomari
+from toimintalogiikka.tekoaly.tekoaly import Tekoaly
 
 
 class KPSTekoaly:

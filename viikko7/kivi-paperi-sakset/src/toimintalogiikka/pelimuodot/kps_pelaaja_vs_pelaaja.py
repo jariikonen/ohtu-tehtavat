@@ -1,4 +1,4 @@
-from tuomari import Tuomari
+from toimintalogiikka.tuomari import Tuomari
 
 
 class KPSPelaajaVsPelaaja:
