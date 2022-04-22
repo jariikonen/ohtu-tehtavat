@@ -1,6 +1,4 @@
-from toimintalogiikka.pelimuodot.kps_pelaaja_vs_pelaaja import KPSPelaajaVsPelaaja
-from toimintalogiikka.pelimuodot.kps_tekoaly import KPSTekoaly
-from toimintalogiikka.pelimuodot.kps_parempi_tekoaly import KPSParempiTekoaly
+from toimintalogiikka.pelimuoto import Pelimuoto
 
 
 def main():
@@ -13,31 +11,22 @@ def main():
               )
 
         vastaus = input()
+        peli = None
 
         if vastaus.endswith("a"):
-            print(
-                "Peli loppuu kun pelaaja antaa virheellisen siirron eli jonkun muun kuin k, p tai s"
-            )
-
-            kaksinpeli = KPSPelaajaVsPelaaja()
-            kaksinpeli.suorita()
+            peli = Pelimuoto.luo_kaksinpeli()
         elif vastaus.endswith("b"):
-            print(
-                "Peli loppuu kun pelaaja antaa virheellisen siirron eli jonkun muun kuin k, p tai s"
-            )
-
-            yksinpeli = KPSTekoaly()
-            yksinpeli.suorita()
+            peli = Pelimuoto.luo_yksinpeli()
         elif vastaus.endswith("c"):
-            print(
-                "Peli loppuu kun pelaaja antaa virheellisen siirron eli jonkun muun kuin k, p tai s"
-            )
-
-            haastava_yksinpeli = KPSParempiTekoaly()
-            haastava_yksinpeli.suorita()
+            peli = Pelimuoto.luo_haastava_yksinpeli()
         else:
             break
 
+        if peli:
+            print(
+                "Peli loppuu kun pelaaja antaa virheellisen siirron eli jonkun muun kuin k, p tai s"
+            )
+            peli.suorita()
 
 if __name__ == "__main__":
     main()
