@@ -2,24 +2,21 @@ from toimintalogiikka.tuomari import Tuomari
 
 
 class Pelimuoto:
-    def __init__(self):
-        self._tuomari = Tuomari()
-        self._vastustaja = None
-        self._tekoalyvastustaja = None
-
     def suorita(self):
-        self.pelaa()
+        tuomari = Tuomari()
+        self._pelaa()
         while self._onko_ok_siirto(self._ekan_siirto) \
                 and self._onko_ok_siirto(self._tokan_siirto):
-            self._tuomari.kirjaa_siirto(self._ekan_siirto, self._tokan_siirto)
-            print(self._tuomari)
+            tuomari.kirjaa_siirto(self._ekan_siirto, self._tokan_siirto)
+            print(tuomari)
 
-            self.pelaa()
+            self._pelaa()
 
         print("Kiitos!")
-        print(self._tuomari)
+        print(tuomari)
 
-    def pelaa(self):
+    # template-metodi
+    def _pelaa(self):
         self._ekan_siirto = None
         self._tokan_siirto = None
 

@@ -5,10 +5,9 @@ from toimintalogiikka.vastustaja.tekoaly_parannettu import TekoalyParannettu
 
 class KPSParempiTekoaly(Pelimuoto):
     def __init__(self):
-        super().__init__()
         self._vastustaja = TekoalyParannettu(10)
 
-    def pelaa(self):
+    def _pelaa(self):
         self._ekan_siirto = input("Ensimmäisen pelaajan siirto: ")
         self._tokan_siirto = self._vastustaja.anna_siirto()
         self._vastustaja.aseta_siirto(self._ekan_siirto)
