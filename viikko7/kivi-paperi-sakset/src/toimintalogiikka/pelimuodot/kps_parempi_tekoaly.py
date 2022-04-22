@@ -1,29 +1,15 @@
+from toimintalogiikka.pelimuodot.pelimuoto import Pelimuoto
 from toimintalogiikka.tuomari import Tuomari
-from toimintalogiikka.tekoaly.tekoaly_parannettu import TekoalyParannettu
+from toimintalogiikka.vastustaja.tekoaly_parannettu import TekoalyParannettu
 
 
-class KPSParempiTekoaly:
+class KPSParempiTekoaly(Pelimuoto):
+    def __init__(self):
+        super().__init__()
+        self._vastustaja = TekoalyParannettu(10)
+
     def pelaa(self):
-        tuomari = Tuomari()
-        tekoaly = TekoalyParannettu(10)
-
-        ekan_siirto = input("Ensimmäisen pelaajan siirto: ")
-        tokan_siirto = tekoaly.anna_siirto()
-
-        print(f"Tietokone valitsi: {tokan_siirto}")
-
-        while self._onko_ok_siirto(ekan_siirto) and self._onko_ok_siirto(tokan_siirto):
-            tuomari.kirjaa_siirto(ekan_siirto, tokan_siirto)
-            print(tuomari)
-
-            ekan_siirto = input("Ensimmäisen pelaajan siirto: ")
-            tokan_siirto = tekoaly.anna_siirto()
-
-            print(f"Tietokone valitsi: {tokan_siirto}")
-            tekoaly.aseta_siirto(ekan_siirto)
-
-        print("Kiitos!")
-        print(tuomari)
-
-    def _onko_ok_siirto(self, siirto):
-        return siirto == "k" or siirto == "p" or siirto == "s"
+        self._ekan_siirto = input("Ensimmäisen pelaajan siirto: ")
+        self._tokan_siirto = self._vastustaja.anna_siirto()
+        self._vastustaja.aseta_siirto(self._ekan_siirto)
+        print(f"Tietokone valitsi: {self._tokan_siirto}")
